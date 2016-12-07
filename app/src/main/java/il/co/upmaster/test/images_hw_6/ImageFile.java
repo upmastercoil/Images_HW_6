@@ -4,7 +4,7 @@ public class ImageFile {
     private String name;
     private long id;
 
-    public ImageFile(String name, int id) {
+    public ImageFile(String name, long id) {
         this.name = name;
         this.id = id;
     }

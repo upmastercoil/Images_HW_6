@@ -2,6 +2,7 @@ package il.co.upmaster.test.images_hw_6.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import il.co.upmaster.test.images_hw_6.App;
@@ -70,6 +71,16 @@ public class DbHandler {
         } finally {
             db.close();
         }
+    }
+
+    public Cursor queryAll() {
+
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        if (db == null)
+            return null;
+        Cursor cursor = null;
+        cursor = db.query(TABLE_NAME, null, null, null, null, null, COLUMNS_NAME + " DESC");
+        return cursor;
     }
 
     private ContentValues generateContentValues(String name) {
