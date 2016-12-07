@@ -15,12 +15,14 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Random;
 
+import il.co.upmaster.test.images_hw_6.data.DbHandler;
+
 import static il.co.upmaster.test.images_hw_6.R.id.imageView;
 
 public class MainActivity extends AppCompatActivity {
 
     private FileManager fileManager;
-    //private HashMap
+    private DbHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = data.getExtras();
         Bitmap resultImage = (Bitmap) extras.get("data");//"data" is the key provided by the android native camera app, maybe other apps use different key!!!
 
-        String name = generateFileName();
+        String name = saveFileNameDB(generateFileName());
         fileManager = new FileManager(name, this, resultImage);
     }
 
@@ -81,4 +83,38 @@ public class MainActivity extends AppCompatActivity {
         int randomNumber = randomGenerator.nextInt(1000);
         return String.valueOf(randomNumber);
     }
+
+    private String saveFileNameDB(String name) {
+        //The function check if the name is exists
+
+        dbHandler = new DbHandler(this);
+
+        ImageFile imageFile = new ImageFile(name);
+        long id = App.ERROR_DB;
+        id = dbHandler.insert(imageFile);
+
+        int checkIfDbAlive = 0;
+        while (id < 0){
+            imageFile.setName(generateFileName());
+            id = dbHandler.insert(imageFile);
+            if (checkIfDbAlive++ > App.TIMES_CHECK_DB)
+                continue;
+        }
+
+        return imageFile.getName();
+    }
+
+    private void deleteAll(){
+        //Clean all files and db
+
+
+
+
+    }
+
+
+
+
+
+
 }

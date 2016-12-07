@@ -27,12 +27,13 @@ import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 public class FileManager {
 
-    private String name;
+    private ImageFile imageFile;
+    //private String name;
     private Context context;
     private Bitmap resultImage;
 
     public FileManager(String name, Context context, Bitmap resultImage){
-        this.name = name + App.EXTENSION_FILE;
+        imageFile = new ImageFile(name + App.EXTENSION_FILE, -1);
         this.context = context;
         this.resultImage = resultImage;
 
@@ -46,7 +47,7 @@ public class FileManager {
 
     private void writeToExternalStorage() {
 
-        File file = getFile(name, App.PATH_DIR);
+        File file = getFile(imageFile.getName(), App.PATH_DIR);
         if (file == null)
             return;
         try {
@@ -59,7 +60,7 @@ public class FileManager {
     private void writeToInternalStorage() {
 
         try {
-            write(context.openFileOutput(name, MODE_PRIVATE));
+            write(context.openFileOutput(imageFile.getName(), MODE_PRIVATE));
         } catch (IOException e) {
             Log.e(App.LOG_TAG, e.getMessage());
         }
@@ -94,7 +95,7 @@ public class FileManager {
 
     private String readFromExternalStorage() {
 
-        File file = getFile(name, App.PATH_DIR);
+        File file = getFile(imageFile.getName(), App.PATH_DIR);
         if (file == null)
             return null;
         try {
@@ -108,7 +109,7 @@ public class FileManager {
     private String readFromInternalStorage() {
 
         try {
-            return read(context.openFileInput(name));
+            return read(context.openFileInput(imageFile.getName()));
         } catch (IOException e) {
             Log.e(App.LOG_TAG, e.getMessage());
         }

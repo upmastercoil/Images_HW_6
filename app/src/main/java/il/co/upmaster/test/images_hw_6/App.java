@@ -12,4 +12,6 @@ public interface App {
     public static final String LOG_TAG = "hw_6";
     public static final String EXTENSION_FILE = ".png";
     public static final String PATH_DIR = Environment.DIRECTORY_PICTURES;
+    public static final long ERROR_DB = -1;
+    public static final int TIMES_CHECK_DB = 10;
 }
